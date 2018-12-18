@@ -42,30 +42,48 @@ namespace BlackJack
             private set { }
         } 
          
-        private CardDeck deck = new CardDeck();     
+        private  CardDeck deck = new CardDeck();     
         private List<int> options = new List<int>() { 0 };
         private List<int> BJList = new List<int>();  
          
         private double player = 0;  
         private double dealer = 0;
 
-     
+
+        //private int cmp(double player1, double player2)
+        //{
+        //    if ((player2 <= 21 && player2 > player1) || player1 > 21)
+        //    {
+
+        //        return -1; //победа дилера  
+        //    }
+        //    if ((player1 <= 21 && player1 > player2) || player2 > 21)
+        //    {
+                
+        //        return 1; //победа игрока  
+        //    }
+        //    return 0; //ничья
+        //}
+
+
         private int cmp(double a, double b)
         {
             double var1 = 0;
-            double var2 = 0; 
+            double var2 = 0;
 
-            if (a > b) var1 = 1;    
-            if (a < b) var2 = 1; 
-              
+            if (a > b) var1 = 1;
+            if (a < b) var2 = 1;
+
             return Convert.ToInt32(var1 - var2);
         }
- 
+
         private void ClearScopes()
         {
             player = 0;
             dealer = 0; 
         }
+
+       
 
         private int BJ(int i)  
         {
@@ -83,7 +101,7 @@ namespace BlackJack
 
                 if (p != 2)    
                 {
-                    for (int j = 4; j <= p + 2 && j < n - i; j++)
+                    for (int j = 4+i; j <= i+p + 2 && j < n - i; j++)
                         { 
                             player += deck.PickCard(i + j).GetValue();   
                         };     
@@ -95,14 +113,14 @@ namespace BlackJack
                 }    
                  dealer = 0;
                  int d1 = 0;   
-                 for (var d = 2; d <= n - i - p ; d++) 
+                 for (var d = 2; d <= n - i - p + 1 ; d++) 
                  {  
                     d1 = d;       
                     dealer = deck.PickCard(i + 1).GetValue() + deck.PickCard(i + 3).GetValue();
                       
                     if (d != 2)  
                     { 
-                        for (int j = p + 2; j <= p + d && j < n - i; j++)
+                        for (int j =i + p + 2; j <= i + p + d && j < n - i; j++)
                         {
                             dealer += deck.PickCard(i + j).GetValue();  
                         } 
@@ -123,8 +141,9 @@ namespace BlackJack
                 dealer += 0.5;
                 options.Add(cmp(player, dealer) + BJ(i + p + d1));
             }   
-            BJList.Add(options.Max());
-            return options.Max();  
+            var max = options.Max();
+            BJList.Add(max);
+            return max;  
         } 
          
         private string StrategyBJ(int i) 
@@ -181,7 +200,7 @@ namespace BlackJack
                 {
                     dealer = 0;
                 } 
-                dealer += 0.5;
+                
                 StrategyBJ(i + p + d1);
             }
             return Way; 

@@ -11,10 +11,10 @@ namespace BlackJack.Console
     {  
         static void Main(string[] args)     
         { 
-            Optimal game = new Optimal(11);
+            Optimal game = new Optimal(52);
 
             System.Console.WriteLine("Максимальный выигрыш: " + game.MaxReward);
-            System.Console.WriteLine("Пожилая стратегия: " + game.Way);
+           // System.Console.WriteLine("Пожилая стратегия: " + game.Way);
              
             System.Console.ReadKey(); 
               
