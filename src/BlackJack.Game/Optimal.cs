@@ -286,45 +286,41 @@ namespace BlackJack
                 Console.WriteLine("No Enough Cards!");
                 return 0;
             }
-            for (var p = 2; p < n - i; p++) /*foreach(var p in Enumerable.Range(2,n-i-2)) */
+            /*for (var p = 2; p < n - i; p++) */
+            foreach (var p in Enumerable.Range(2,n-i-2)) 
             {
                 player = c[i] + c[i + 2];
-
 
                 if (p != 2)
                 {
                     for (int j = 4 + i; j <= i + p + 2 && j < n - i; j++)
                     {
-                        player += (c[i + j]);
-                    };
+                        player += c[i + j];
+                    }
                 }
                  Console.WriteLine("Player = " + player);
 
                 if (player > 21)
                 {
-                    options.Add(-1 + BJ(i + p + 2));
                     Console.WriteLine("Player Bust"); 
+                    options.Add(-1 + BJ(i + p + 2));
+                    
                     break;
                 }
                 dealer = 0;
                 int d1 = 0;
-                for (var d = 2; d <= n - i - p + 1; d++) /*foreach (var d in Enumerable.Range(2,n - i - p))*/
+                /*for (var d = 2; d <= n - i - p + 1; d++) */
+                foreach (var d in Enumerable.Range(2,n - i - p))
                 {
                     d1 = d;
                     dealer = c[i + 1] + c[i + 3];
+                    
+                        for (int j = i + p + 2; j <= i + p + d && j < n - i; j++)
+                        {
+                            dealer += c[i + j];
 
-                    for (int j = i + p + 2; j <= i + p + d && j < n - i; j++)
-                    {
-                        dealer += c[i + j];
-                    }
-
-                    if (dealer >= 17)
-                    {
-                         Console.WriteLine("Dealer Stop Drawing");
-                        break;
-                    }
-
-
+                        }
+                    
                     Console.WriteLine("Dealer = " + dealer);
                     if (dealer >= 17)
                     {
@@ -332,24 +328,20 @@ namespace BlackJack
                         break;
                     }
                 }
-
                 if (dealer < 17 && i + p + d1 >= n)
                 {
-
                     dealer = 21;
-
+                    Console.WriteLine("What");
                 }
-
                 if (dealer > 21)
                 {
                     dealer = 0;
-                    Console.WriteLine("Dealer Bust");
-                }
-                dealer += 0.5;
+                    Console.WriteLine("DEALER BUST");
+                }  
                 Console.WriteLine("Dealer = " + dealer);
-
+                dealer += 0.5;
                 options.Add(cmp(player, dealer) + BJ(i + p + d1));
-
+                
             }
             var max = options.Max();
             BJList.Add(max);
