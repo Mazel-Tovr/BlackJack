@@ -7,7 +7,7 @@ namespace BlackJack
     {
         public List<Card> initialDeck = Create_52_deck();
 
-        public static List<Card> Create_52_deck()   
+        public  static List<Card> Create_52_deck()   
         {
             var deck = new List<Card>();
             for (int i = 2; i <= Card.GetMaxPictureNumber(); i++)
@@ -51,7 +51,7 @@ namespace BlackJack
             return cards.Count;
         } 
            
-        public void Shuffle(int cardCount)
+        public  void Shuffle(int cardCount)
         {
             //initialDeck = Create_52_deck(); 
             cards = new List<Card>();
