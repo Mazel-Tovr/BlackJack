@@ -221,6 +221,7 @@ namespace BlackJack
     /// <summary>
     /// OLD_NA_MESTE
     /// </summary>
+    
     public class OldOptimal
     {
         //public List<int> c = new List<int>() { 10, 7, 4, 2, 7, 6 }; //true 
@@ -273,6 +274,7 @@ namespace BlackJack
             
             return Convert.ToInt32(var1 - var2);
         }
+        
 
 
         private int BJ(int i)
@@ -286,19 +288,31 @@ namespace BlackJack
                 Console.WriteLine("No Enough Cards!");
                 return 0;
             }
-            /*for (var p = 2; p < n - i; p++) */
+            int p1=0;
+            //for (var p = 2; p < n - i; p++)
             foreach (var p in Enumerable.Range(2,n-i-2)) 
             {
-                player = c[i] + c[i + 2];
+
+                
+                p1 = p;
+                player = c[i] + c[i + 2] ; //+player += c[Enumerable.Range(i + 4, i + p + 2).Sum()];
 
                 if (p != 2)
                 {
-                    for (int j = 4 + i; j <= i + p + 2 && j < n - i; j++)
+
+                    for (int z = i + 4, x = i + p + 2; x >= z && z < n - 1; z++)
                     {
-                        player += c[i + j];
+                        player += c[z];
+                        p1 += 1;
                     }
                 }
-                 Console.WriteLine("Player = " + player);
+                    //for (int j = 4 + i; j <= i + p + 2 && j < n - i; j++)
+                    //{
+                    //    player += c[i + j];
+                    //}
+                    
+                
+                Console.WriteLine("Player = " + player);
 
                 if (player > 21)
                 {
@@ -309,19 +323,36 @@ namespace BlackJack
                 }
                 dealer = 0;
                 int d1 = 0;
-                /*for (var d = 2; d <= n - i - p + 1; d++) */
-                foreach (var d in Enumerable.Range(2,n - i - p))
+                //for (var d = 2; d <= n - i - p + 1; d++)
+                foreach (var d in Enumerable.Range(2, n - i - p + 1-2))
                 {
+
                     d1 = d;
-                    dealer = c[i + 1] + c[i + 3];
-                    
-                        for (int j = i + p + 2; j <= i + p + d && j < n - i; j++)
+
+                    dealer = c[i + 1] + c[i + 3];//+sum(c[i+p+2:i+p+d])
+
+
+                    if (d != 2)
+                    {
+
+                        for (int z = i + p + 2, x = i + p + d; x >= z && dealer <= 16 && z < n - 1; z++)
                         {
-                            dealer += c[i + j];
+
+                            dealer += c[z];
+                            
 
                         }
-                    
-                    Console.WriteLine("Dealer = " + dealer);
+                    }
+
+                       //for (int z = 0, j = i + p + 2+z ; j <= i + p + d && j < n - i; j++)
+                            //{
+
+                            //        dealer += c[i + j+1];                                
+                                
+
+                            //}
+                   
+                        Console.WriteLine("Dealer = " + dealer);
                     if (dealer >= 17)
                     {
                          Console.WriteLine("Dealer Stop Drawing");
@@ -340,7 +371,8 @@ namespace BlackJack
                 }  
                 Console.WriteLine("Dealer = " + dealer);
                 dealer += 0.5;
-                options.Add(cmp(player, dealer) + BJ(i + p + d1));
+                options.Add(cmp(player, dealer) + BJ(i + p1 + d1));
+                // Короче ошибка в d1 оно должно быть на единицу , а иногда и на двойку больше, ну тоесть делать больше оперций , хз как пофиксить
                 
             }
             var max = options.Max();
@@ -360,6 +392,7 @@ namespace BlackJack
             System.Console.WriteLine();
 
             return BJ(0);
+            System.Console.WriteLine("jj");
         }
     }
 }
